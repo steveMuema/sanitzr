@@ -6,16 +6,14 @@ import * as types from 'app/actions/types';
 
 const initialState = {
   id: null,
-  username: '',
-  password: '',
+  name: '',
 };
 
 export const loginReducer = createReducer(initialState, {
   [types.LOGIN_REQUEST](state, action) {
     return {
       ...state,
-      username: action.username,
-      password: action.password,
+      name: action.name,
     };
   },
   [types.LOGIN_LOADING_ENDED](state) {
@@ -24,7 +22,7 @@ export const loginReducer = createReducer(initialState, {
   [types.LOGIN_RESPONSE](state, action) {
     return {
       ...state,
-      id: action.userToken,
+      id: action.response,
     };
   },
   [types.LOGIN_FAILED](state) {

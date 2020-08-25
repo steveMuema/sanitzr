@@ -6,7 +6,7 @@ import createReducer from 'app/lib/createReducer';
 import * as types from 'app/actions/types';
 
 const initialState = {
-  isLoginLoading: false,
+  isLoginLoading: true,
 };
 
 export const loadingReducer = createReducer(initialState, {

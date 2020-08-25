@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
 
 let _navigator;
 
@@ -8,7 +8,7 @@ function setTopLevelNavigator(navigatorRef) {
 
 function navigate(routeName, params) {
   _navigator.dispatch(
-    NavigationActions.navigate({
+    CommonActions.navigate({
       routeName,
       params,
     }),
@@ -17,7 +17,7 @@ function navigate(routeName, params) {
 
 function goBack(key) {
   _navigator.dispatch(
-    NavigationActions.back({
+    CommonActions.back({
       key: key,
     }),
   );

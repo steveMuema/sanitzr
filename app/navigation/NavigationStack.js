@@ -1,5 +1,6 @@
 // import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { Alert } from 'react-native';
 import React, { useEffect } from 'react';
 import Login from 'app/screens/Login';
@@ -10,30 +11,34 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AsyncStorage } from 'react-native';
 import ignoreWarnings from 'react-native-ignore-warnings';
 
+// import {
+//   // configureFonts,
+//   // DefaultTheme,
+//   Provider as PaperProvider,
+// } from 'react-native-paper';
+
 ignoreWarnings('Setting a timer');
 
 function AuthIsLoaded({ children }) {
-  // const email = useSelector(state => state.loginReducer.username);
-  // const pswd = useSelector(state => state.loginReducer.password);
   const dispatch = useDispatch();
-  // dispatch(loginActions.requestLogin(email, pswd));
   const isLoading = useSelector(state => state.loadingReducer.isLoginLoading);
   useEffect(() => {
+    let token;
     dispatch(loginActions.enableLoader());
     const bootstrapAsync = async () => {
       let userToken;
       try {
-        await setTimeout(() => {
-          userToken = AsyncStorage.getItem('userToken');
-        }, 200);
+        userToken = await AsyncStorage.getItem('@userToken');
       } catch (e) {
         console.log(e);
         setTimeout(() => {
           Alert.alert('BoilerPlate', e.toString());
-        }, 200);
+        }, 5000);
       }
-      dispatch(loginActions.onLoginResponse(userToken));
-      dispatch(loginActions.disableLoader());
+      setTimeout(() => {
+        dispatch(loginActions.onLoginResponse(userToken));
+        dispatch(loginActions.disableLoader());
+      }, 1500);
     };
     bootstrapAsync();
   }, [dispatch]);
@@ -48,18 +53,24 @@ const Stack = createNativeStackNavigator();
 
 export default function RNApp() {
   // get the token in asyncstorage once usertoken is not null load auth screens and home screens otherwise
-  // const dispatch = useDispatch();
   const userToken = useSelector(state => state.loginReducer.id);
 
   return (
     <AuthIsLoaded>
       <Stack.Navigator>
         {userToken == null ? (
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen
+            name="New Player"
+            component={Login}
+            options={{ headerShown: false }}
+          />
         ) : (
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
         )}
-        {/* <Stack.Screen name="Settings" component={Settings} /> */}
       </Stack.Navigator>
     </AuthIsLoaded>
   );
